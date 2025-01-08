@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGen Robotics Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-neon: #0ff;
+            --secondary-neon: #4facfe;
+            --dark-bg: #000;
+            --darker-bg: #0a0a0a;
+            --text-light: #fff;
+            --text-gray: #888;
+            --transition-speed: 0.3s;
+            --gradient-glow: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: var(--nav-height);
+        }
+
+        .tech-font {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(0,0,0,0.95);
+            box-shadow: 0 0 20px rgba(0,255,255,0.1);
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient-glow);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'Share Tech Mono', monospace;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-glow);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            height: 2px;
+            background: var(--gradient-glow);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: calc(100vh - var(--nav-height));
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, rgba(0,255,255,0.1) 0%, transparent 100%),
+                radial-gradient(circle at 50% 50%, rgba(79,172,254,0.1) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        .circuit-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 49%, rgba(0,255,255,0.05) 50%, transparent 51%) 0 0 / 50px 50px,
+                linear-gradient(0deg, transparent 49%, rgba(0,255,255,0.05) 50%, transparent 51%) 0 0 / 50px 50px;
+            opacity: 0.5;
+            animation: circuitFlow 20s linear infinite;
+        }
+
+        @keyframes circuitFlow {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient-glow);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+            text-shadow: 0 0 20px rgba(0,255,255,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            text-decoration: none;
+            color: var(--text-light);
+            background: transparent;
+            border: 2px solid var(--primary-neon);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.5s;
+            cursor: pointer;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glow);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 20px var(--primary-neon);
+            transform: translateY(-2px);
+        }
+
+        /* Solutions Section */
+        .solutions {
+            padding: 6rem 2rem;
+            background: var(--darker-bg);
+            position: relative;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .solution-card {
+            background: rgba(10,10,10,0.8);
+            border: 1px solid rgba(0,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 0deg,
+                var(--primary-neon) 360deg
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .solution-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0,255,255,0.2);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: var(--dark-bg);
+            position: relative;
+        }
+
+        .testimonial-carousel {
+            max-width: 800px;
+            margin: 3rem auto;
+            position: relative;
+        }
+
+        .testimonial-slide {
+            background: rgba(10,10,10,0.8);
+            border: 1px solid rgba(0,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-slide:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0,255,255,0.2);
+        }
+
+        /* Team Section */
+        .team {
+            padding: 6rem 2rem;
+            background: var(--darker-bg);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background: rgba(10,10,10,0.8);
+            border: 1px solid rgba(0,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0,255,255,0.2);
+        }
+
+        /* Blog Section */
+        .blog {
+            padding: 6rem 2rem;
+            background: var(--dark-bg);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: rgba(10,10,10,0.8);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0,255,255,0.2);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: var(--darker-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, rgba(0,255,255,0.05) 0%, transparent 100%),
+                radial-gradient(circle at 50% 50%, rgba(79,172,254,0.05) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            background: rgba(10,10,10,0.8);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0,255,255,0.1);
+            box-shadow: 0 0 30px rgba(0,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-form:hover {
+            box-shadow: 0 0 40px rgba(0,255,255,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0,255,255,0.2);
+            border-radius: 5px;
+            color: var(--text-light);
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 15px rgba(0,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .contact-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-social-link {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contact-social-link::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: var(--gradient-glow);
+            opacity: 0;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .contact-social-link:hover {
+            color: var(--primary-neon);
+            transform: translateY(-3px);
+        }
+
+        .contact-social-link:hover::before {
+            opacity: 0.2;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid var(--primary-neon);
+            color: var(--text-light);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glow);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .form-submit:hover::before {
+            left: 0;
+        }
+
+        .form-submit:hover {
+            box-shadow: 0 0 20px var(--primary-neon);
+            transform: translateY(-2px);
+        }
+
+        .form-message {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Share Tech Mono', monospace;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .form-message.success {
+            background: rgba(0,255,255,0.1);
+            border: 1px solid var(--primary-neon);
+            color: var(--primary-neon);
+        }
+
+        .form-message.error {
+            background: rgba(255,0,0,0.1);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        @keyframes formPulse {
+            0% { box-shadow: 0 0 5px var(--primary-neon); }
+            50% { box-shadow: 0 0 20px var(--primary-neon); }
+            100% { box-shadow: 0 0 5px var(--primary-neon); }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem;
+            background: var(--darker-bg);
+            border-top: 1px solid rgba(0,255,255,0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--primary-neon);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                right: -100%;
+                height: calc(100vh - var(--nav-height));
+                width: 250px;
+                background: rgba(0,0,0,0.95);
+                flex-direction: column;
+                padding: 2rem;
+                transition: right 0.3s ease;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: block;
+                cursor: pointer;
+                z-index: 1000;
+            }
+
+            .hero-content {
+                padding: 1rem;
+            }
+            
+            .solutions-grid,
+            .team-grid,
+            .blog-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-neon);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px var(--primary-neon); }
+            50% { box-shadow: 0 0 20px var(--primary-neon); }
+            100% { box-shadow: 0 0 5px var(--primary-neon); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-spinner"></div>
+    <div class="progress-bar"></div>
+
+    <nav class="nav">
+        <a href="#" class="nav-logo orbitron">NextGen Robotics</a>
+        <div class="nav-links">
+            <a href="#about" class="nav-link">System</a>
+            <a href="#solutions" class="nav-link">Solutions</a>
+            <a href="#team" class="nav-link">Team</a>
+            <a href="#blog" class="nav-link">Updates</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <main>
+        <div class="circuit-bg"></div>
+        
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title tech-font">NextGen Robotics</h1>
+                <p class="hero-subtitle">Advancing the Future Through Automation</p>
+                <a href="#contact" class="cta-button tech-font">Initialize System</a>
+            </div>
+        </section>
+
+        <section id="about" class="about" data-aos="fade-up">
+            <h2 class="section-title tech-font">System Overview</h2>
+            <div class="container">
+                <p class="about-text">
+                    Pioneering the intersection of robotics and artificial intelligence to create 
+                    revolutionary solutions for tomorrow's challenges.
+                </p>
+            </div>
+        </section>
+
+        <section id="solutions" class="solutions">
+            <h2 class="section-title tech-font">Core Systems</h2>
+            <div class="solutions-grid">
+                <div class="solution-card" data-aos="fade-up">
+                    <h3 class="tech-font">Automated Processing</h3>
+                    <p>Advanced algorithms for seamless data processing and analysis</p>
+                </div>
+                <div class="solution-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="tech-font">Neural Networks</h3>
+                    <p>Deep learning solutions for complex problem-solving</p>
+                </div>
+                <div class="solution-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="tech-font">Robotic Integration</h3>
+                    <p>Seamless hardware-software integration for robotic systems</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="team">
+            <h2 class="section-title tech-font">Core Team</h2>
+            <div class="team-grid">
+                <div class="team-card" data-aos="fade-up">
+                    <h3 class="tech-font">Dr. Sarah Chen</h3>
+                    <p>Chief Robotics Officer</p>
+                </div>
+                <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="tech-font">Alex Martinez</h3>
+                    <p>AI Research Lead</p>
+                </div>
+                <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="tech-font">Dr. James Wilson</h3>
+                    <p>Systems Architecture</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="blog">
+            <h2 class="section-title tech-font">System Updates</h2>
+            <div class="blog-grid">
+                <div class="blog-card" data-aos="fade-up">
+                    <h3 class="tech-font">New Neural Network Architecture</h3>
+                    <p>Breakthrough in processing efficiency</p>
+                </div>
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="tech-font">Robotics Integration Update</h3>
+                    <p>Enhanced hardware compatibility</p>
+                </div>
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="tech-font">AI Research Milestone</h3>
+                    <p>Advanced decision-making capabilities</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2 class="section-title tech-font" data-aos="fade-up">Initialize Contact</h2>
+            <form class="contact-form" data-aos="fade-up">
+                <div class="form-group">
+                    <input type="text" class="form-input tech-font" placeholder="Enter Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input tech-font" placeholder="Enter Email Protocol" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-input tech-font" rows="5" placeholder="Enter Message Sequence" required></textarea>
+                </div>
+                <button type="submit" class="form-submit tech-font">
+                    <span>Transmit Message</span>
+                </button>
+                <div class="form-message"></div>
+                <div class="contact-social">
+                    <a href="#" class="contact-social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="contact-social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="contact-social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="tech-font">NextGen Robotics</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="tech-font">Quick Links</h3>
+                    <a href="#" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">Resources</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingSpinner = document.querySelector('.loading-spinner');
+            const nav = document.querySelector('.nav');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const progressBar = document.querySelector('.progress-bar');
+            const contactForm = document.querySelector('.contact-form');
+            const formMessage = document.querySelector('.form-message');
+
+            loadingSpinner.style.display = 'none';
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                formMessage.style.display = 'block';
+                formMessage.classList.add('success');
+                formMessage.textContent = 'Message transmitted successfully!';
+                
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                    contactForm.reset();
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
